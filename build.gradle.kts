@@ -54,7 +54,6 @@ task("copyJar", Copy::class) {
 
 tasks.jpackage {
     dependsOn("build", "copyDependencies", "copyJar")
-    type = ImageType.APP_IMAGE
 
     appName = "ApplicationName"
     vendor = "app.org"
@@ -70,8 +69,13 @@ tasks.jpackage {
     }
 
     windows {
+        type = ImageType.MSI
         icon = ""
         winConsole = true
+    }
+
+    linux {
+        type = ImageType.DEFAULT
     }
 }
 

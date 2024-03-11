@@ -3,7 +3,7 @@ import org.panteleyev.jpackage.ImageType
 plugins {
     application
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "1.9.23"
     id("org.panteleyev.jpackageplugin") version "1.6.0"
 }
 

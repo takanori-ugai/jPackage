@@ -4,7 +4,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "8.1.1"
     kotlin("jvm") version "2.1.10"
-    id("org.panteleyev.jpackageplugin") version "1.6.0"
+    id("org.panteleyev.jpackageplugin") version "1.6.1"
 }
 
 group = "org.example"

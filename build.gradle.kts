@@ -19,10 +19,6 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 kotlin {
     jvmToolchain(17)
 }
@@ -32,51 +28,57 @@ application {
     mainClass.set("org.example.MainKt")
 }
 
-tasks.register("copyDependencies", Copy::class) {
-    from(configurations.runtimeClasspath).into(layout.buildDirectory.dir("jmods"))
-}
-
-tasks.register("copyJar", Copy::class) {
-    from(tasks.jar).into(layout.buildDirectory.dir("jmods"))
-}
-
 tasks {
+
+    register("copyDependencies", Copy::class) {
+        from(configurations.runtimeClasspath).into(layout.buildDirectory.dir("jmods"))
+    }
+
+    register("copyJar", Copy::class) {
+        from(jar).into(layout.buildDirectory.dir("jmods"))
+    }
+
     compileKotlin {
-        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
     }
 
     compileJava {
         options.encoding = "UTF-8"
-        sourceCompatibility = "11"
-        targetCompatibility = "11"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
 
-}
-
-tasks.jpackage {
-    dependsOn("build", "copyDependencies", "copyJar")
-
-    input = layout.buildDirectory.dir("jmods")
-    destination = layout.buildDirectory.dir("dist")
-    appName = "ApplicationName"
-    vendor = "app.org"
-    copyright = "Copyright (c) 2025 Takanori Ugai"
-    mainJar = tasks.jar.get().archiveFileName.get()
-    mainClass = "org.example.MainKt"
-    javaOptions = listOf("-Dfile.encoding=UTF-8")
-
-    mac {
-        icon.set(file("icons/icons.icns"))
+    test {
+        useJUnitPlatform()
     }
 
-    windows {
+
+    jpackage {
+        dependsOn("build", "copyDependencies", "copyJar")
+
+        input = layout.buildDirectory.dir("jmods")
+        destination = layout.buildDirectory.dir("dist")
+        appName = "ApplicationName"
+        vendor = "app.org"
+        copyright = "Copyright (c) 2025 Takanori Ugai"
+        mainJar = jar.get().archiveFileName.get()
+        mainClass = "org.example.MainKt"
+        javaOptions = listOf("-Dfile.encoding=UTF-8")
+
+        mac {
+            icon.set(file("icons/icons.icns"))
+        }
+
+        windows {
 //        icon = layout.projectDirectory.file("icons/icons.ico")
-        type = ImageType.MSI
-        winConsole = true
-    }
+            type = ImageType.MSI
+            winConsole = true
+            winDirChooser = true
+            winMenu = true
+        }
 
-    linux {
-        type = ImageType.DEFAULT
+        linux {
+            type = ImageType.DEFAULT
+        }
     }
 }
-

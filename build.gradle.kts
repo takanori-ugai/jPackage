@@ -72,7 +72,7 @@ tasks {
         windows {
 //        icon = layout.projectDirectory.file("icons/icons.ico")
             type = ImageType.MSI
-            winConsole = true
+            winConsole = false
             winDirChooser = true
             winMenu = true
         }

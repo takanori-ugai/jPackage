@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import org.panteleyev.jpackage.ImageType
 
 plugins {
@@ -6,6 +7,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     kotlin("jvm") version "2.1.21"
     id("org.panteleyev.jpackageplugin") version "1.7.3"
+    id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
 }
 
 group = "org.example"
@@ -29,7 +31,6 @@ application {
 }
 
 tasks {
-
     register("copyDependencies", Copy::class) {
         from(configurations.runtimeClasspath).into(layout.buildDirectory.dir("jmods"))
     }
@@ -51,7 +52,6 @@ tasks {
     test {
         useJUnitPlatform()
     }
-
 
     jpackage {
         dependsOn("build", "copyDependencies", "copyJar")
@@ -80,5 +80,19 @@ tasks {
         linux {
             type = ImageType.DEFAULT
         }
+    }
+}
+
+ktlint {
+    verbose.set(true)
+    outputToConsole.set(true)
+    coloredOutput.set(true)
+    reporters {
+        reporter(ReporterType.CHECKSTYLE)
+        reporter(ReporterType.JSON)
+        reporter(ReporterType.HTML)
+    }
+    filter {
+        exclude("**/style-violations.kt")
     }
 }

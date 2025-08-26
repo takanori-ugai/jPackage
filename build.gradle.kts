@@ -7,7 +7,7 @@ plugins {
     id("com.gradleup.shadow") version "9.0.2"
     kotlin("jvm") version "2.2.10"
     id("org.panteleyev.jpackageplugin") version "1.7.3"
-    id("org.jlleitschuh.gradle.ktlint") version "13.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
 }
 
 group = "org.example"

@@ -4,7 +4,7 @@ import org.panteleyev.jpackage.ImageType
 
 plugins {
     application
-    id("com.gradleup.shadow") version "9.1.0"
+    id("com.gradleup.shadow") version "9.2.2"
     kotlin("jvm") version "2.2.21"
     id("org.panteleyev.jpackageplugin") version "1.7.6"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
